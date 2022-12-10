@@ -1,0 +1,316 @@
+{
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "swagger": "2.0",
+    "info": {
+        "description": "Store with actual comics",
+        "title": "Comics-shop",
+        "contact": {
+            "name": "Alexey Fotchin",
+            "url": "https://vk.com/id250446192",
+            "email": "fotchin02@mail.ru"
+        },
+        "version": "1.0"
+    },
+    "host": "127.0.0.1:8080",
+    "basePath": "/",
+    "paths": {
+        "/comics": {
+            "get": {
+                "description": "Get a list of all comics",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Info"
+                ],
+                "summary": "Get all records",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Comics"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Adding a new comics to database",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Add"
+                ],
+                "summary": "Add a new comics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Название",
+                        "name": "Name",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Цена",
+                        "name": "Price",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Год выпуска",
+                        "name": "Year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsCreated"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    }
+                }
+            }
+        },
+        "/comics/:uuid": {
+            "get": {
+                "description": "Get the price using the comics uuid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Info"
+                ],
+                "summary": "Get price for a comics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "UUID комикс",
+                        "name": "UUID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsPrice"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Change the comics price using its uuid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Change"
+                ],
+                "summary": "Change comics price",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "UUID комикс",
+                        "name": "UUID",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Новая цена",
+                        "name": "Price",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsChanged"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a comics using its uuid",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Delete"
+                ],
+                "summary": "Delete a comics",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "UUID комикс",
+                        "name": "UUID",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsDeleted"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/comics.ComicsError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "comics.ComicsChanged": {
+            "type": "object",
+            "properties": {
+                "changed": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "comics.ComicsCreated": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "description": "success",
+                    "type": "boolean"
+                }
+            }
+        },
+        "comics.ComicsDeleted": {
+            "type": "object",
+            "properties": {
+                "deleted": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "comics.ComicsError": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "description": "description",
+                    "type": "string"
+                },
+                "error": {
+                    "description": "error",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "type",
+                    "type": "string"
+                }
+            }
+        },
+        "comics.ComicsPrice": {
+            "type": "object",
+            "properties": {
+                "price": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Comics": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "uuid": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,212 @@
+basePath: /
+definitions:
+  comics.ComicsChanged:
+    properties:
+      changed:
+        type: boolean
+    type: object
+  comics.ComicsCreated:
+    properties:
+      created:
+        description: success
+        type: boolean
+    type: object
+  comics.ComicsDeleted:
+    properties:
+      deleted:
+        type: boolean
+    type: object
+  comics.ComicsError:
+    properties:
+      description:
+        description: description
+        type: string
+      error:
+        description: error
+        type: string
+      type:
+        description: type
+        type: string
+    type: object
+  comics.ComicsPrice:
+    properties:
+      price:
+        type: integer
+    type: object
+  model.Comics:
+    properties:
+      name:
+        type: string
+      price:
+        type: integer
+      uuid:
+        type: string
+      year:
+        type: integer
+    type: object
+host: 127.0.0.1:8080
+info:
+  contact:
+    email: fotchin02@mail.ru
+    name: Alexey Fotchin
+    url: https://vk.com/id250446192
+  description: Store with actual comics
+  title: Comics-shop
+  version: "1.0"
+paths:
+  /comics:
+    get:
+      description: Get a list of all comics
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Comics'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+      summary: Get all records
+      tags:
+      - Info
+    post:
+      description: Adding a new comics to database
+      parameters:
+      - description: Название
+        in: query
+        name: Name
+        required: true
+        type: string
+      - description: Цена
+        in: query
+        name: Price
+        required: true
+        type: integer
+      - description: Год выпуска
+        in: query
+        name: Year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/comics.ComicsCreated'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+      summary: Add a new comics
+      tags:
+      - Add
+  /comics/:uuid:
+    delete:
+      description: Delete a comics using its uuid
+      parameters:
+      - description: UUID комикс
+        format: uuid
+        in: query
+        name: UUID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/comics.ComicsDeleted'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+      summary: Delete a comics
+      tags:
+      - Delete
+    get:
+      description: Get the price using the comics uuid
+      parameters:
+      - description: UUID комикс
+        format: uuid
+        in: query
+        name: UUID
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/comics.ComicsPrice'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+      summary: Get price for a comics
+      tags:
+      - Info
+    put:
+      description: Change the comics price using its uuid
+      parameters:
+      - description: UUID комикс
+        format: uuid
+        in: query
+        name: UUID
+        required: true
+        type: string
+      - description: Новая цена
+        in: query
+        name: Price
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/comics.ComicsChanged'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/comics.ComicsError'
+      summary: Change comics price
+      tags:
+      - Change
+schemes:
+- http
+- https
+swagger: "2.0"
